@@ -34,29 +34,29 @@ def format_biz_name(bus):
 #                         'business Address and Phone Number from Yelp\n'\
 #                         'Enter Business Name:\n')
 # URL
-quote_page = 'https://www.yelp.com/biz/smokes-poutinerie-berkeley'
+QUOTE_PAGE = 'https://www.yelp.com/biz/smokes-poutinerie-berkeley'
 
 # Using urllib2 to turn the URL into object
-page = urllib2.urlopen(quote_page)
+PAGE = urllib2.urlopen(QUOTE_PAGE)
 
 # Parse page using Beautiful Soup and store as object 'Soup'
-soup = BeautifulSoup(page, 'html.parser')
+SOUP = BeautifulSoup(PAGE, 'html.parser')
 
 # Find class name on site, take out div (Unwanted text/info) and get value
-biz_name_class = soup.find('h1', attrs={'class': 'biz-page-title embossed-text-white shortenough'})
-phone_num_class = soup.find('span', attrs={'class': 'biz-phone'})
-address_class = soup.find('strong', attrs={'class': 'street-address'})
+BIZ_NAME_CLASS = SOUP.find('h1', attrs={'class': 'biz-page-title embossed-text-white shortenough'})
+PHONE_NUM_CLASS = SOUP.find('span', attrs={'class': 'biz-phone'})
+ADDRESS_CLASS = SOUP.find('strong', attrs={'class': 'street-address'})
 
 
 # Strip spaces and trailing
-biz_name = biz_name_class.text.strip()
-phone_num = str(phone_num_class.text.strip())
+BIZ_NAME = BIZ_NAME_CLASS.text.strip()
+PHONE_NUM = str(PHONE_NUM_CLASS.text.strip())
 
 # Format due to Yelp fuckery
-address = format_address(address_class)
+ADDRESS = format_address(ADDRESS_CLASS)
 # Convert from ASCII to string
-biz_name = format_biz_name(biz_name)
+BIZ_NAME = format_biz_name(BIZ_NAME)
 
 
 # Prints number and address
-print '{} \nPhone number: {} \nAddress: {}'.format(biz_name, phone_num, address)
+print '{} \nPhone number: {} \nAddress: {}'.format(BIZ_NAME, PHONE_NUM, ADDRESS)
