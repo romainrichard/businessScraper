@@ -1,6 +1,15 @@
 """
 Web Scraper to take input of a business name and return Address & Phone Number
+Asks User for business name
+Uses this to search Yelp, gets link of actual business from search results.
+Goes to URL of actual business page
+Scrapes Address and Phone Number
+
+If I look at this in a year and this doc string helps me understand what i did , give Jesse 25 cents
+(Even though he is currently suffering from male pattern Hunter S. Thompson-ness)
 """
+
+import re
 
 import urllib2
 
@@ -9,26 +18,23 @@ from bs4 import BeautifulSoup
 
 def format_address(add):
     """
-    Yelp makes addresses ugly, all this crap is to make them pretty.
-    Takes a soup tag object
-    Returns a String
+    Takes BS tag object, converts to string. Replaces <br> tags with nothing.
+    Then, uses Regex to remove everything in between tags. (Non-text)
+    Finally, strips the address of whitespace.
+    :param add: beautiful soup object representing address
+    :return: Nicely formatted String Address
     """
     addy = str(add)
     addy = addy.replace("<br/>", " ")
-    addy = addy.split()
-
-    del addy[0:3]
-    del addy[-1]
-    del addy[-1]
-
-    addy = ' '.join(addy)
-
+    addy = re.sub(r'<.+?>', '', addy)
+    addy = addy.strip()
     return addy
 
 
 def format_search_link(lnk):
     """
-    Take class of first search Result
+    Searches for first HTML tag starting with "a"
+    Take HTML class/tag of first search Result
     Return only the end of URL that you need
     """
     format_biz_link = lnk.find('a')
@@ -46,24 +52,24 @@ def format_uni_to_string(bus):
 
 
 # Main Yelp URL
-MAINYELP = 'https://www.yelp.com'
+YELP_INDEX = 'https://www.yelp.com'
 
 # Code Below - Getting Business Name from User, Searching this on Yelp
 
 # Yelp search Link, to be appended with user input
-SEARCHYELP = 'https://www.yelp.com/search?find_desc='
+SEARCH_YELP = 'https://www.yelp.com/search?find_desc='
 
-ASKBUSINESS = raw_input('\nThis program will return a '
+ASK_BUSINESS = raw_input('\nThis program will return a '
                         'business Address and Phone Number from Yelp!\n'
                         '\nEnter Business Name:\n')
 
 
 # Append user inputted business so Yelp Search link
-SEARCHYELP += ASKBUSINESS
-SEARCHYELP = SEARCHYELP.replace(' ', '+')
+SEARCH_YELP += ASK_BUSINESS
+SEARCH_YELP = SEARCH_YELP.replace(' ', '+')
 
 # Using urllib2 to turn the search URL into object
-SEARCH_PAGE = urllib2.urlopen(SEARCHYELP)
+SEARCH_PAGE = urllib2.urlopen(SEARCH_YELP)
 
 # Parse search page using Beautiful Soup and store as object 'SEARCHED'
 SEARCH_RESULT_PAGE = BeautifulSoup(SEARCH_PAGE, 'html.parser')
@@ -73,7 +79,7 @@ SEARCH_RESULT_PAGE = BeautifulSoup(SEARCH_PAGE, 'html.parser')
 SEARCHED_BIZ_LINK_CLASS = SEARCH_RESULT_PAGE.find('span', attrs={'class': 'indexed-biz-name'})
 SEARCHED_BIZ_LINK_CLASS = format_search_link(SEARCHED_BIZ_LINK_CLASS)
 
-FULL_URL = MAINYELP + SEARCHED_BIZ_LINK_CLASS
+FULL_URL = YELP_INDEX + SEARCHED_BIZ_LINK_CLASS
 
 # URL - This is how you would ordinarily use a URL with BS
 # QUOTE_PAGE = 'https://www.yelp.com/biz/equinox-berkeley-berkeley-2?osq=gym'
@@ -96,7 +102,7 @@ ADDRESS_CLASS = SOUP.find('strong', attrs={'class': 'street-address'})
 BIZ_NAME = BIZ_NAME_CLASS.text.strip()
 PHONE_NUM = PHONE_NUM_CLASS.text.strip()
 
-# Format due to Yelp fuckery
+# Format to give pretty address
 FORMATTED_ADDRESS = format_address(ADDRESS_CLASS)
 
 # Convert from ASCII to string
