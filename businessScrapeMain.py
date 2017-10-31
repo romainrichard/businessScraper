@@ -59,9 +59,9 @@ YELP_INDEX = 'https://www.yelp.com'
 # Yelp search Link, to be appended with user input
 SEARCH_YELP = 'https://www.yelp.com/search?find_desc='
 
-ASK_BUSINESS = raw_input('\nThis program will return a '
-                        'business Address and Phone Number from Yelp!\n'
-                        '\nEnter Business Name:\n')
+ASK_BUSINESS = raw_input('\nThis program will return a'
+                         'business Address and Phone Number from Yelp!\n'
+                         '\nEnter Business Name:\n')
 
 
 # Append user inputted business so Yelp Search link
