@@ -18,11 +18,10 @@ from bs4 import BeautifulSoup
 
 def format_address(add):
     """
-    Takes BS tag object, converts to string. Replaces <br> tags with nothing.
-    Then, uses Regex to remove everything in between tags. (Non-text)
-    Finally, strips the address of whitespace.
-    :param add: beautiful soup object representing address
-    :return: Nicely formatted String Address
+    Takes BS tag object for Address
+    Uses Regex to remove everything between HTML tags ("<>")
+    Strips it to removes whitespace
+    Returns nicely formatted address
     """
     addy = str(add)
     plain_address = re.sub(r'<.+?>', ' ', addy).strip()
