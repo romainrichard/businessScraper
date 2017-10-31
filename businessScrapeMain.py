@@ -25,10 +25,8 @@ def format_address(add):
     :return: Nicely formatted String Address
     """
     addy = str(add)
-    addy = addy.replace("<br/>", " ")
-    addy = re.sub(r'<.+?>', '', addy)
-    addy = addy.strip()
-    return addy
+    plain_address = re.sub(r'<.+?>', ' ', addy).strip()
+    return plain_address
 
 
 def format_search_link(lnk):
