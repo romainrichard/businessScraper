@@ -20,12 +20,11 @@ def format_address(add):
     """
     Takes BS tag object for Address
     Uses Regex to remove everything between HTML tags ("<>")
+    In the Address Object turned String
     Strips it to removes whitespace
     Returns nicely formatted address
     """
-    addy = str(add)
-    plain_address = re.sub(r'<.+?>', ' ', addy).strip()
-    return plain_address
+    return re.sub(r'<.+?>', ' ', str(add)).strip()
 
 
 def format_search_link(lnk):
