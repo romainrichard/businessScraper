@@ -33,8 +33,7 @@ def format_search_link(lnk):
     Take HTML class/tag of first search Result
     Return only the end of URL that you need
     """
-    format_biz_link = lnk.find('a')
-    return format_biz_link.attrs['href']
+    return lnk.find('a').attrs['href']
 
 
 def format_uni_to_string(bus):
@@ -43,8 +42,7 @@ def format_uni_to_string(bus):
     Takes ASCII business name
     Returns String business name
     """
-    bus = bus.encode("utf-8")
-    return bus
+    return bus.encode("utf-8")
 
 
 # Main Yelp URL
